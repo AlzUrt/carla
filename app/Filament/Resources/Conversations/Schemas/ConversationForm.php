@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Conversations\Schemas;
 use App\Filament\Components\VoiceRecorderInput;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\View;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 
@@ -48,6 +49,22 @@ class ConversationForm
                             ->required(false),
                     ])
                     ->collapsible(),
+                
+                Section::make('Lecteur Audio - Question')
+                    ->schema([
+                        View::make('filament.components.audio-player')
+                            ->viewData(['type' => 'question'])
+                    ])
+                    ->collapsible()
+                    ->hidden(fn ($get) => empty($get('audio_question_path'))),
+                
+                Section::make('Lecteur Audio - Réponse')
+                    ->schema([
+                        View::make('filament.components.audio-player')
+                            ->viewData(['type' => 'answer'])
+                    ])
+                    ->collapsible()
+                    ->hidden(fn ($get) => empty($get('audio_answer_path'))),
 
                 Section::make('Performance')
                     ->schema([

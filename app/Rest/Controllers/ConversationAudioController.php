@@ -33,10 +33,10 @@ class ConversationAudioController extends Controller
             // Save uploaded audio file
             $audioFile = $request->file('audio');
             $audioPath = 'conversations/audio_questions/' . uniqid('question_', true) . '.' . $audioFile->getClientOriginalExtension();
-            Storage::disk('local')->put($audioPath, file_get_contents($audioFile));
+            Storage::disk('public')->put($audioPath, file_get_contents($audioFile));
 
             // Step 1: Transcribe audio with Whisper
-            $whisperResult = $this->whisperService->transcribe(Storage::path($audioPath));
+            $whisperResult = $this->whisperService->transcribe(Storage::disk('public')->path($audioPath));
             $transcribedText = $whisperResult['text'];
             $sttDuration = $whisperResult['duration_ms'];
 
@@ -79,7 +79,7 @@ class ConversationAudioController extends Controller
                 'text_question' => $transcribedText,
                 'text_answer' => $llmResponse,
                 'audio_answer_path' => $audioAnswerPath,
-                'audio_answer_url' => Storage::url($audioAnswerPath),
+                'audio_answer_url' => route('audio.serve', ['path' => $audioAnswerPath]),
                 'durations' => [
                     'stt_ms' => $sttDuration,
                     'llm_ms' => $llmDuration,

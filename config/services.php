@@ -51,6 +51,7 @@ return [
     'elevenlabs' => [
         'api_key' => env('ELEVENLABS_API_KEY'),
         'voice_id' => env('ELEVENLABS_VOICE_ID', '21m00Tcm4TlvDq8ikWAM'),
+        'model' => env('ELEVENLABS_MODEL', 'eleven_flash_v2_5'),
     ],
 
 ];

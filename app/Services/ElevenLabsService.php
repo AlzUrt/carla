@@ -9,12 +9,14 @@ class ElevenLabsService
 {
     private string $apiKey;
     private string $voiceId;
+    private string $modelId;
     private string $apiUrl = 'https://api.elevenlabs.io/v1';
 
     public function __construct()
     {
         $this->apiKey = config('services.elevenlabs.api_key');
         $this->voiceId = config('services.elevenlabs.voice_id', '21m00Tcm4TlvDq8ikWAM');
+        $this->modelId = config('services.elevenlabs.model', 'eleven_flash_v2_5');
     }
 
     /**
@@ -28,7 +30,7 @@ class ElevenLabsService
             'xi-api-key' => $this->apiKey,
         ])->post("{$this->apiUrl}/text-to-speech/{$this->voiceId}", [
             'text' => $text,
-            'model_id' => 'eleven_monolingual_v1',
+            'model_id' => $this->modelId,
             'voice_settings' => [
                 'stability' => 0.5,
                 'similarity_boost' => 0.75,
@@ -43,7 +45,7 @@ class ElevenLabsService
 
         // Save audio file
         $audioPath = 'conversations/audio_answers/' . uniqid('answer_', true) . '.mp3';
-        Storage::disk('local')->put($audioPath, $response->body());
+        Storage::disk('public')->put($audioPath, $response->body());
 
         return [
             'path' => $audioPath,
