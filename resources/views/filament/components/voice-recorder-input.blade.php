@@ -1,84 +1,27 @@
-<div class="space-y-4">
-    <div class="rounded-lg border border-gray-300 bg-white p-4">
-        <h3 class="mb-4 font-semibold text-gray-700">Enregistrement Vocal</h3>
-        
-        <div class="space-y-3">
-            <!-- Status Display -->
-            <div id="voiceStatus" class="hidden rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
-                En attente...
-            </div>
-            
-            <!-- Recording Controls -->
-            <div class="flex flex-wrap gap-2">
-                <button 
-                    type="button"
-                    id="startRecordBtn"
-                    class="inline-flex items-center justify-center rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                >
-                    🎤 Démarrer l'enregistrement
-                </button>
-                
-                <button 
-                    type="button"
-                    id="stopRecordBtn"
-                    disabled
-                    class="inline-flex items-center justify-center rounded-lg bg-gray-400 px-4 py-2 text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
-                >
-                    ⏹️ Arrêter
-                </button>
-            </div>
-            
-            <!-- Timer -->
-            <div id="recordingTimer" class="hidden text-sm font-medium text-red-600">
-                Durée: <span id="timerCount">00:00</span>
-            </div>
-            
-            <!-- Transcription Display -->
-            <div id="transcriptionSection" class="hidden space-y-2">
-                <label class="text-sm font-medium text-gray-700">Texte transcrit:</label>
-                <textarea 
-                    id="transcribedText"
-                    readonly
-                    class="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-700"
-                    rows="3"
-                ></textarea>
-            </div>
-            
-            <!-- Response Display -->
-            <div id="responseSection" class="hidden space-y-2">
-                <label class="text-sm font-medium text-gray-700">Réponse Claude:</label>
-                <textarea 
-                    id="claudeResponse"
-                    readonly
-                    class="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-700"
-                    rows="3"
-                ></textarea>
-            </div>
-            
-            <!-- Audio Player -->
-            <div id="audioPlayerSection" class="hidden space-y-2">
-                <label class="text-sm font-medium text-gray-700">Réponse Audio:</label>
-                <div class="rounded-lg border border-gray-300 bg-gray-50 p-3">
-                    <audio 
-                        id="audioPlayer"
-                        controls
-                        class="w-full"
-                    ></audio>
-                </div>
-            </div>
-            
-            <!-- Processing Metrics -->
-            <div id="metricsSection" class="hidden rounded-lg bg-gray-50 p-3">
-                <p class="mb-2 text-sm font-medium text-gray-700">Temps de traitement:</p>
-                <ul class="space-y-1 text-sm text-gray-600">
-                    <li>🎤 Transcription: <span id="sttTime">-</span> ms</li>
-                    <li>🤖 Claude: <span id="llmTime">-</span> ms</li>
-                    <li>🔊 TTS: <span id="ttsTime">-</span> ms</li>
-                    <li class="font-medium">⏱️ Total: <span id="totalTime">-</span> ms</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+<div class="flex gap-3">
+    <button 
+        type="button"
+        id="startRecordBtn"
+        class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-red-600 to-red-700 px-6 py-3 text-sm font-semibold text-white hover:shadow-lg hover:from-red-700 hover:to-red-800 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+    >
+        <span class="text-lg">🎤</span>
+        <span>Enregistrer</span>
+    </button>
+    
+    <button 
+        type="button"
+        id="stopRecordBtn"
+        disabled
+        class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-slate-300 px-6 py-3 text-sm font-semibold text-white disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-lg transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
+    >
+        <span class="text-lg">⏹️</span>
+        <span>Arrêter</span>
+    </button>
+</div>
+
+<!-- Status Message -->
+<div id="voiceStatus" class="hidden mt-3 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300">
+    En attente...
 </div>
 
 <script>

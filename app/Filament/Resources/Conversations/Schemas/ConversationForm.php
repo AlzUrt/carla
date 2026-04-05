@@ -35,20 +35,6 @@ class ConversationForm
                             ->required(false),
                     ])
                     ->collapsible(),
-
-                Section::make('Fichiers Audio')
-                    ->schema([
-                        TextInput::make('audio_question_path')
-                            ->label('Chemin du fichier audio - Question')
-                            ->disabled()
-                            ->required(false),
-
-                        TextInput::make('audio_answer_path')
-                            ->label('Chemin du fichier audio - Réponse')
-                            ->disabled()
-                            ->required(false),
-                    ])
-                    ->collapsible(),
                 
                 Section::make('Lecteur Audio - Question')
                     ->schema([
