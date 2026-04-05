@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
+
+    'claude' => [
+        'api_key' => env('CLAUDE_API_KEY'),
+    ],
+
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY'),
+        'model' => env('GEMINI_MODEL', 'gemini-2.0-flash'),
+    ],
+
+    'elevenlabs' => [
+        'api_key' => env('ELEVENLABS_API_KEY'),
+        'voice_id' => env('ELEVENLABS_VOICE_ID', '21m00Tcm4TlvDq8ikWAM'),
+    ],
+
 ];

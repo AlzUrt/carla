@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14419c948ac19c1c2f87635ca58a3ff1",
+    "content-hash": "4035345a56c83fc9cf77c27ae17f4032",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -3236,6 +3236,151 @@
                 }
             ],
             "time": "2026-04-02T20:48:35+00:00"
+        },
+        {
+            "name": "lomkit/laravel-access-control",
+            "version": "v0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Lomkit/laravel-access-control.git",
+                "reference": "b14d4ae007f6f414c4a99b313096b15bd2406cba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Lomkit/laravel-access-control/zipball/b14d4ae007f6f414c4a99b313096b15bd2406cba",
+                "reference": "b14d4ae007f6f414c4a99b313096b15bd2406cba",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.0|^7.0",
+                "laravel/scout": "^10",
+                "orchestra/testbench": "^9|^10|^11",
+                "phpunit/phpunit": "^11.0|^12.0|^13.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Access": "Lomkit\\Access\\Facades\\Access"
+                    },
+                    "providers": [
+                        "Lomkit\\Access\\AccessServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lomkit\\Access\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gautier Deleglise",
+                    "email": "gautier@lomkit.com"
+                }
+            ],
+            "description": "A package to help you manage your laravel application access rights.",
+            "keywords": [
+                "access",
+                "control",
+                "laravel",
+                "lomkit",
+                "security"
+            ],
+            "support": {
+                "issues": "https://github.com/Lomkit/laravel-access-control/issues",
+                "source": "https://github.com/Lomkit/laravel-access-control/tree/v0.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GautierDele",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-03-22T20:22:14+00:00"
+        },
+        {
+            "name": "lomkit/laravel-rest-api",
+            "version": "v2.20.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Lomkit/laravel-rest-api.git",
+                "reference": "4938f775af4c5d1d233538c99d11c4c825cfc428"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Lomkit/laravel-rest-api/zipball/4938f775af4c5d1d233538c99d11c4c825cfc428",
+                "reference": "4938f775af4c5d1d233538c99d11c4c825cfc428",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^11|^12|^13",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.0|^7.0",
+                "laravel/scout": "^10|^11",
+                "orchestra/testbench": "^9|^10|^11",
+                "phpunit/phpunit": "^10|^11|^12|^13"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Rest": "Lomkit\\Rest\\Facades\\Rest"
+                    },
+                    "providers": [
+                        "Lomkit\\Rest\\RestServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Lomkit\\Rest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gautier Deleglise",
+                    "email": "gautier@lomkit.com"
+                }
+            ],
+            "description": "A package to build quick and robust rest api for the Laravel framework.",
+            "keywords": [
+                "api",
+                "graphql",
+                "laravel",
+                "lomkit",
+                "rest"
+            ],
+            "support": {
+                "issues": "https://github.com/Lomkit/laravel-rest-api/issues",
+                "source": "https://github.com/Lomkit/laravel-rest-api/tree/v2.20.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GautierDele",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-03-18T07:29:39+00:00"
         },
         {
             "name": "monolog/monolog",
