@@ -50,7 +50,28 @@
     const claudeResponse = document.getElementById('claudeResponse');
     const audioPlayer = document.getElementById('audioPlayer');
 
+    function findFieldElement(fieldName) {
+        return document.querySelector(
+            `[name="${fieldName}"], [name$="[${fieldName}]"], textarea[id$="${fieldName}"], input[id$="${fieldName}"]`
+        );
+    }
+
+    function setFieldValue(fieldName, value) {
+        const field = findFieldElement(fieldName);
+        if (!field) {
+            return;
+        }
+
+        field.value = value ?? '';
+        field.dispatchEvent(new Event('input', { bubbles: true }));
+        field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
     function showStatus(message, type = 'info') {
+        if (!voiceStatus) {
+            return;
+        }
+
         voiceStatus.textContent = message;
         voiceStatus.className = 'rounded-lg p-3 text-sm hidden';
         if (type === 'info') {
@@ -64,6 +85,10 @@
     }
 
     function startTimer() {
+        if (!recordingTimer || !timerCount) {
+            return;
+        }
+
         recordingStartTime = Date.now();
         recordingTimer.classList.remove('hidden');
         timerInterval = setInterval(() => {
@@ -76,10 +101,13 @@
 
     function stopTimer() {
         clearInterval(timerInterval);
-        recordingTimer.classList.add('hidden');
+
+        if (recordingTimer) {
+            recordingTimer.classList.add('hidden');
+        }
     }
 
-    startRecordBtn.addEventListener('click', async () => {
+    startRecordBtn?.addEventListener('click', async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             selectedMimeType = preferredMimeTypes.find((mimeType) => MediaRecorder.isTypeSupported(mimeType)) || '';
@@ -104,11 +132,15 @@
             showStatus('Enregistrement en cours...', 'info');
             startTimer();
         } catch (error) {
-            showStatus('Erreur d\'accès au microphone: ' + error.message, 'error');
+            showStatus('Erreur lors du démarrage de l\'enregistrement: ' + error.message, 'error');
         }
     });
 
-    stopRecordBtn.addEventListener('click', () => {
+    stopRecordBtn?.addEventListener('click', () => {
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            return;
+        }
+
         mediaRecorder.stop();
         stopRecordBtn.disabled = true;
         startRecordBtn.disabled = false;
@@ -128,12 +160,12 @@
                 formData.append('conversation_id', conversationIdEl.dataset.conversationId);
             }
 
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
             const response = await fetch('/api/conversations/process-audio', {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
+                headers: csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {},
             });
 
             if (!response.ok) {
@@ -144,26 +176,49 @@
             const data = await response.json();
 
             // Display results
-            transcribedText.value = data.text_question;
-            claudeResponse.value = data.text_answer;
-            transcriptionSection.classList.remove('hidden');
-            responseSection.classList.remove('hidden');
+            if (transcribedText) {
+                transcribedText.value = data.text_question;
+            }
+            if (claudeResponse) {
+                claudeResponse.value = data.text_answer;
+            }
+
+            setFieldValue('text_question', data.text_question);
+            setFieldValue('text_answer', data.text_answer);
+            setFieldValue('duration_stt_ms', data.durations?.stt_ms);
+            setFieldValue('duration_llm_ms', data.durations?.llm_ms);
+            setFieldValue('duration_tts_ms', data.durations?.tts_ms);
+            setFieldValue('status', 'completed');
+
+            transcriptionSection?.classList.remove('hidden');
+            responseSection?.classList.remove('hidden');
 
             // Load audio response
-            audioPlayer.src = data.audio_answer_url;
-            audioPlayerSection.classList.remove('hidden');
+            if (audioPlayer) {
+                audioPlayer.src = data.audio_answer_url;
+            }
+            audioPlayerSection?.classList.remove('hidden');
 
             // Display metrics
-            document.getElementById('sttTime').textContent = data.durations.stt_ms;
-            document.getElementById('llmTime').textContent = data.durations.llm_ms;
-            document.getElementById('ttsTime').textContent = data.durations.tts_ms;
-            document.getElementById('totalTime').textContent = data.durations.total_ms;
-            metricsSection.classList.remove('hidden');
+            const sttTimeEl = document.getElementById('sttTime');
+            const llmTimeEl = document.getElementById('llmTime');
+            const ttsTimeEl = document.getElementById('ttsTime');
+            const totalTimeEl = document.getElementById('totalTime');
+            if (sttTimeEl) sttTimeEl.textContent = data.durations?.stt_ms ?? '-';
+            if (llmTimeEl) llmTimeEl.textContent = data.durations?.llm_ms ?? '-';
+            if (ttsTimeEl) ttsTimeEl.textContent = data.durations?.tts_ms ?? '-';
+            if (totalTimeEl) totalTimeEl.textContent = data.durations?.total_ms ?? '-';
+            metricsSection?.classList.remove('hidden');
 
             showStatus('Traitement réussi! ✨', 'success');
 
             // Play audio automatically
-            audioPlayer.play();
+            if (audioPlayer) {
+                audioPlayer.play().catch(() => {});
+            } else if (data.audio_answer_url) {
+                const fallbackAudio = new Audio(data.audio_answer_url);
+                fallbackAudio.play().catch(() => {});
+            }
         } catch (error) {
             showStatus('Erreur: ' + error.message, 'error');
             console.error('Error:', error);
