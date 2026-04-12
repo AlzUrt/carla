@@ -1,0 +1,15 @@
+meta {
+  name: Post
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost/api/conversations/process-audio
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  audio: @file(C:\Users\Chab\Documents\Enregistrements audio\Enregistrement (2).m4a)
+}
