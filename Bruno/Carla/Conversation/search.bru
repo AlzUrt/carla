@@ -1,0 +1,29 @@
+meta {
+  name: search
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost/api/conversations/search
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: 2|4Wh05CU2Abf4ybWMdL6Af4joM3EP3PXrwBnaWx7Jd4254ba6
+}
+
+body:json {
+  {
+    "search": {
+      "filters": [
+        {
+          "field": "error",
+          "operator": "=",
+          "value": null
+        }
+      ]
+    }
+  }
+}

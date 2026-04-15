@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AudioFileController;
+use App\Rest\Controllers\ConversationsController;
+use Lomkit\Rest\Facades\Rest;
 
 \Lomkit\Rest\Facades\Rest::resource('users', \App\Rest\Controllers\UsersController::class);
 
@@ -12,3 +14,7 @@ Route::post('/conversations/process-audio', [\App\Rest\Controllers\ConversationA
 Route::get('/storage/{path}', [AudioFileController::class, 'serve'])
     ->where('path', '.*')
     ->name('audio.serve');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Rest::resource('conversations', ConversationsController::class);
+});
